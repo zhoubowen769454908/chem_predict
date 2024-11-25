@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
+import pandas as pd
 from rdkit import Chem
 from rdkit.Chem.Draw import MolsToGridImage
 from tensorflow.keras.models import load_model
@@ -19,16 +19,15 @@ def predict_spectrum(smiles, model):
     return model.predict(fingerprint)
 
 # 绘制光谱图
-def draw_spectrum(spectrum):
+def draw_spectrum_with_streamlit(spectrum):
     intensities = spectrum.flatten()
     mzs = np.arange(1, len(intensities) + 1)
 
-    plt.figure(figsize=(8, 4))
-    plt.stem(mzs, intensities, markerfmt=' ', basefmt=' ')
-    plt.xlabel("Mass (m/z)")
-    plt.ylabel("Intensity")
-    plt.title("Predicted Mass Spectrum")
-    st.pyplot(plt)
+    # 转换为 DataFrame，适配 st.bar_chart
+    spectrum_data = pd.DataFrame({'Mass (m/z)': mzs, 'Intensity': intensities}).set_index('Mass (m/z)')
+
+    # 使用 Streamlit 自带的 bar_chart 绘制光谱
+    st.bar_chart(spectrum_data)
 
 # Streamlit App
 st.title("Spectrum Predictor")
@@ -58,6 +57,6 @@ if st.button("Predict Spectrum"):
             st.image(img, caption="Molecular Structure", use_column_width=True)
 
         # 绘制光谱图
-        draw_spectrum(result)
+        draw_spectrum_with_streamlit(result)
     else:
         st.error("Invalid SMILES input!")
