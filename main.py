@@ -42,6 +42,7 @@ if st.button("Predict Spectrum"):
     if spectrum is not None:
         # 找到最大的五个数值的索引
         idxs = np.argpartition(spectrum[0], -5)[-5:]
+        st.write("idxs", idxs)
         # 创建一个全零的数组
         result1 = np.zeros_like(spectrum)
         # 将最大的五个数值设置到对应的位置
