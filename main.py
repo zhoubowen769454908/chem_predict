@@ -21,7 +21,7 @@ def predict_spectrum(smiles, model):
 # 绘制光谱图
 def draw_spectrum_with_streamlit(spectrum):
     intensities = spectrum.flatten()
-    mzs = np.arange(1, len(intensities) + 1)
+    mzs = np.arange(len(intensities))
 
     # 转换为 DataFrame，适配 st.bar_chart
     spectrum_data = pd.DataFrame({'Mass (m/z)': mzs, 'Intensity': intensities}).set_index('Mass (m/z)')
