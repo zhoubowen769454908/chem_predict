@@ -33,7 +33,7 @@ def draw_spectrum_with_streamlit(spectrum):
 st.title("Spectrum Predictor")
 
 # 输入框
-smiles = st.text_input("Enter SMILES:", "CC(C)(C)c1ccc2occ(CC(=O)Nc3ccccc3F)c2c1")
+smiles = st.text_input("Enter SMILES:", "CC(C)(C)C1=CC=CC=C1")
 
 # 预测按钮
 if st.button("Predict Spectrum"):
@@ -41,7 +41,7 @@ if st.button("Predict Spectrum"):
 
     if spectrum is not None:
         # 找到最大的五个数值的索引
-        idxs = np.argpartition(spectrum[0], -5)[-5:]
+        idxs = np.argpartition(spectrum[0], -8)[-8:]
         # st.write("idxs", idxs)
         # 创建一个全零的数组
         result1 = np.zeros_like(spectrum)
